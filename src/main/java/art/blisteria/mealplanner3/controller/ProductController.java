@@ -23,16 +23,27 @@ public class ProductController {
                 .buildAndExpand(response.getId()).toUri()).build();
     }
 
-    @GetMapping (params = {"id"})
+    @GetMapping(params = {"id"})
     public Product getProduct(@RequestParam("id") Long id) {
         return service.getById(id);
     }
 
-    @GetMapping (params = {"name"})
+    @GetMapping(params = {"name"})
     public Product testCreate(@RequestParam("name") String test) {
         Product product = new Product(999L, test, "test description", 1D);
         service.createProduct(product);
         return product;
     }
 
+    @PutMapping
+    public ResponseEntity<Product> updateProduct(@RequestBody Product product, UriComponentsBuilder builder) {
+        Product response = service.editProduct(product);
+        return ResponseEntity.created(builder.path("api/v1/products/{id}")
+                .buildAndExpand(response.getId()).toUri()).build();
+    }
+
+    @DeleteMapping(params = {"id"})
+    public void deleteProduct(@RequestParam("id") Long id) {
+        service.deleteProduct(id);
+    }
 }
