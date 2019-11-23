@@ -30,7 +30,16 @@ public class ProductController {
 
     @GetMapping(params = {"name"})
     public Product testCreate(@RequestParam("name") String test) {
-        Product product = new Product(999L, test, "test description", 1D);
+        Product product = new Product(test, "test description", 1D);
+        service.createProduct(product);
+        return product;
+    }
+
+    @GetMapping(params = {"name", "description", "amount"})
+    public Product fullCreate(@RequestParam("name") String name,
+                              @RequestParam("description") String description,
+                              @RequestParam("amount") Double amount) {
+        Product product = new Product(name, description, amount);
         service.createProduct(product);
         return product;
     }

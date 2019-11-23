@@ -2,21 +2,24 @@ package art.blisteria.mealplanner3.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Entity
+@Entity(name = "product")
 public class Product {
 
     @Id
+    @Column(name = "product_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
 
+    @Column(name = "product_name")
     String name;
+
+    @Column(name = "description")
     String description;
+
+    @Column(name = "amount")
     Double amount;
 
     public Product() {
@@ -24,6 +27,12 @@ public class Product {
 
     public Product(Long id, String name, String description, Double amount) {
         this.id = id;
+        this.name = name;
+        this.description = description;
+        this.amount = amount;
+    }
+
+    public Product(String name, String description, Double amount) {
         this.name = name;
         this.description = description;
         this.amount = amount;
