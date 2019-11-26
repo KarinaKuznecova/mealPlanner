@@ -22,6 +22,10 @@ public class ProductService {
         return productRepository.getOne(id);
     }
 
+    public Product getByName(String name) {
+        return productRepository.getProductByName(name);
+    }
+
     public Product editProduct(Product product) {
         return productRepository.save(product);
     }
