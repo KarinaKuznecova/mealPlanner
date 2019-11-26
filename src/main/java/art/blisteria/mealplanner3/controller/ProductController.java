@@ -24,8 +24,8 @@ public class ProductController {
     }
 
     @GetMapping(params = {"id"})
-    public Product getProduct(@RequestParam("id") Long id) {
-        return service.getById(id);
+    public ResponseEntity<Product> productById(@RequestParam("id") Long id) {
+        return ResponseEntity.ok(service.getById(id));
     }
 
     @GetMapping(params = {"name"})
