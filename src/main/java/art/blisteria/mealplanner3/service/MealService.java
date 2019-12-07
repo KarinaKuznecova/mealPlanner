@@ -2,27 +2,26 @@ package art.blisteria.mealplanner3.service;
 
 import art.blisteria.mealplanner3.domain.Meal;
 import art.blisteria.mealplanner3.repository.MealRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class MealService {
 
-    private final static MealService service = new MealService();
-
-    @Autowired
     private MealRepository mealRepository;
 
-    private MealService() {
-    }
-
-    public static MealService getInstance() {
-        return service;
+    public MealService(MealRepository mealRepository) {
+        this.mealRepository = mealRepository;
     }
 
     public Meal createMeal(Meal meal) {
         mealRepository.save(meal);
         return meal;
+    }
+
+    public List<Meal> getAllMeals() {
+        return mealRepository.findAll();
     }
 
     public Meal getById(Long id) {

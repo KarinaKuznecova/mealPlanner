@@ -13,7 +13,11 @@ import java.util.List;
 @RequestMapping("api/v1/products")
 public class ProductController {
 
-    private ProductService service = ProductService.getInstance();
+    private ProductService service;
+
+    public ProductController(ProductService service) {
+        this.service = service;
+    }
 
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody Product product, UriComponentsBuilder builder) {
@@ -32,6 +36,11 @@ public class ProductController {
         return ResponseEntity.ok(service.getByName(name));
     }
 
+    @GetMapping
+    public ResponseEntity<List<Product>> getAllProducts() {
+        return ResponseEntity.ok(service.getAllProducts());
+    }
+
     @GetMapping(path="/available")
     public List<Product> getAvailableProducts() {
         return service.getAvailableProducts();
@@ -46,8 +55,9 @@ public class ProductController {
     public Product testCreate(@RequestParam("name") String name,
                               @RequestParam("description") String description,
                               @RequestParam("amount") Double amount,
-                              @RequestParam("category") ProductCategory category) {
-        Product product = new Product(name, description, amount, category);
+                              @RequestParam("category") String category) {
+        ProductCategory productCategory = ProductCategory.valueOf(category);
+        Product product = new Product(name, description, amount, productCategory);
         service.createProduct(product);
         return product;
     }

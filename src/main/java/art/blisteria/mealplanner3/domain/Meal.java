@@ -3,9 +3,11 @@ package art.blisteria.mealplanner3.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.Map;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Entity(name = "meal")
+@Entity
+@Table(name = "meal")
 public class Meal {
 
     @Id
@@ -22,13 +24,18 @@ public class Meal {
     @Column(name = "category")
     private MealCategory mealCategory;
 
+    @ElementCollection(fetch = FetchType.LAZY)
+    @Column(name = "products")
+    private Map<Long, Double> products;
+
     public Meal() {
     }
 
-    public Meal(String name, String description, MealCategory category){
+    public Meal(String name, String description, MealCategory category, Map<Long, Double> products) {
         this.name = name;
         this.description = description;
         this.mealCategory = category;
+        this.products = products;
     }
 
     public Long getId() {
@@ -63,6 +70,14 @@ public class Meal {
         this.mealCategory = mealCategory;
     }
 
+    public Map<Long, Double> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Map<Long, Double> products) {
+        this.products = products;
+    }
+
     @Override
     public String toString() {
         return "Meal{" +
@@ -70,6 +85,7 @@ public class Meal {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", mealCategory=" + mealCategory +
+                ", products=" + products +
                 '}';
     }
 }
