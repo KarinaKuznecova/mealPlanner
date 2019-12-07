@@ -2,15 +2,22 @@ package art.blisteria.mealplanner3.service;
 
 import art.blisteria.mealplanner3.domain.Product;
 import art.blisteria.mealplanner3.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ProductService {
 
+    private final static ProductService service = new ProductService();
+
+    @Autowired
     private ProductRepository productRepository;
 
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    private ProductService(){
+    }
+
+    public static ProductService getInstance(){
+        return service;
     }
 
     public Product createProduct(Product product) {

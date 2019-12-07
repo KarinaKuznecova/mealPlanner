@@ -11,11 +11,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequestMapping("api/v1/products")
 public class ProductController {
 
-    private ProductService service;
-
-    public ProductController(ProductService service) {
-        this.service = service;
-    }
+    private ProductService service = ProductService.getInstance();
 
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody Product product, UriComponentsBuilder builder) {
