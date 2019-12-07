@@ -39,6 +39,10 @@ public class ProductService {
         return productRepository.findAllByAmountGreaterThan(0);
     }
 
+    public List<Product> getProductsWithAmountZero() {
+        return productRepository.findAllByAmountEquals(0);
+    }
+
     public Product editProduct(Product product) {
         return productRepository.save(product);
     }

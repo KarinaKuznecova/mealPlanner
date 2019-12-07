@@ -37,6 +37,11 @@ public class ProductController {
         return service.getAvailableProducts();
     }
 
+    @GetMapping(path="/zero")
+    public List<Product> getProductsWithAmountZero() {
+        return service.getProductsWithAmountZero();
+    }
+
     @GetMapping(params = {"name", "description", "amount", "category"})
     public Product testCreate(@RequestParam("name") String name,
                               @RequestParam("description") String description,

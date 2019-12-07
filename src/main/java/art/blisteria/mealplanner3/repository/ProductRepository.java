@@ -10,4 +10,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Product getProductByName(String name);
 
     List<Product> findAllByAmountGreaterThan(double amount);
+
+    List<Product> findAllByAmountEquals(double amount);
 }
