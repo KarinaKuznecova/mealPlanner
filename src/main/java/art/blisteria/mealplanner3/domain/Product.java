@@ -11,31 +11,28 @@ public class Product {
     @Id
     @Column(name = "product_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+    private Long id;
 
     @Column(name = "product_name")
-    String name;
+    private String name;
 
     @Column(name = "description")
-    String description;
+    private String description;
 
     @Column(name = "amount")
-    Double amount;
+    private Double amount;
+
+    @Column(name = "category")
+    private ProductCategory productCategory;
 
     public Product() {
     }
 
-    public Product(Long id, String name, String description, Double amount) {
-        this.id = id;
+    public Product(String name, String description, Double amount, ProductCategory productCategory) {
         this.name = name;
         this.description = description;
         this.amount = amount;
-    }
-
-    public Product(String name, String description, Double amount) {
-        this.name = name;
-        this.description = description;
-        this.amount = amount;
+        this.productCategory = productCategory;
     }
 
     public Long getId() {
@@ -70,6 +67,14 @@ public class Product {
         this.amount = amount;
     }
 
+    public ProductCategory getProductCategory() {
+        return productCategory;
+    }
+
+    public void setProductCategory(ProductCategory productCategory) {
+        this.productCategory = productCategory;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -77,6 +82,7 @@ public class Product {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", amount=" + amount +
+                ", productCategory=" + productCategory +
                 '}';
     }
 }
