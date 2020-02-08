@@ -3,8 +3,8 @@ package art.blisteria.mealplanner3.controller;
 import art.blisteria.mealplanner3.domain.Meal;
 import art.blisteria.mealplanner3.domain.MealCategory;
 import art.blisteria.mealplanner3.service.MealService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ import java.util.Map;
 public class MealController {
 
     private MealService service;
-    private static Logger logger = LogManager.getLogger(MealController.class);
+    private static Logger logger = LoggerFactory.getLogger(MealController.class);
 
     @Autowired
     public MealController(MealService service) {
@@ -65,7 +65,7 @@ public class MealController {
         return meal;
     }
 
-    @GetMapping
+    @GetMapping(params = {"category"})
     public ResponseEntity<List<Meal>> getMealsByCategory(@RequestParam("category") String category) {
         logger.debug("Getting Meals by category: " + category);
         return ResponseEntity.ok(service.getMealsByCategory(MealCategory.valueOf(category)));

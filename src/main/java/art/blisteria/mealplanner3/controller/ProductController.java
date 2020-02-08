@@ -3,8 +3,8 @@ package art.blisteria.mealplanner3.controller;
 import art.blisteria.mealplanner3.domain.Product;
 import art.blisteria.mealplanner3.domain.ProductCategory;
 import art.blisteria.mealplanner3.service.ProductService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -16,7 +16,7 @@ import java.util.List;
 public class ProductController {
 
     private ProductService service;
-    private static Logger logger = LogManager.getLogger(ProductController.class);
+    private static Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     public ProductController(ProductService service) {
         this.service = service;
@@ -61,7 +61,7 @@ public class ProductController {
         return service.getProductsWithAmountZero();
     }
 
-    @GetMapping
+    @GetMapping(params = {"category"})
     public ResponseEntity<List<Product>> getProductsByCategory(@RequestParam("category") String category) {
         logger.debug("Getting all Products by category: " + category);
         return ResponseEntity.ok(service.getProductsByCategory(ProductCategory.valueOf(category)));
