@@ -15,7 +15,7 @@ public class WebBean {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/v1/**")
-                        .allowedOrigins("*", "file://")
+                        .allowedOrigins("*", "file://", "http://localhost:3000/")
                         .allowedHeaders("Content-Type", "Access-Control-Allow-Credentials")
                         .allowedMethods("PUT", "DELETE", "GET", "POST")
                         .allowCredentials(true).maxAge(3600);

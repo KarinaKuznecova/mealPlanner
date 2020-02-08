@@ -1,6 +1,7 @@
 package art.blisteria.mealplanner3.service;
 
 import art.blisteria.mealplanner3.domain.Product;
+import art.blisteria.mealplanner3.domain.ProductCategory;
 import art.blisteria.mealplanner3.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +39,10 @@ public class ProductService {
 
     public List<Product> getProductsWithAmountZero() {
         return productRepository.findAllByAmountEquals(0);
+    }
+
+    public List<Product> getProductsByCategory(ProductCategory category) {
+        return productRepository.findAllByProductCategory(category);
     }
 
     public Product editProduct(Product product) {

@@ -41,7 +41,7 @@ public class MealController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Meal>> getAllMeals(@RequestParam("name") String name) {
+    public ResponseEntity<List<Meal>> getAllMeals() {
         return ResponseEntity.ok(service.getAllMeals());
     }
 
@@ -55,6 +55,11 @@ public class MealController {
         Meal meal = new Meal(name, description, MealCategory.valueOf(category), products);
         service.createMeal(meal);
         return meal;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Meal>> getMealsByCategory(String category) {
+        return ResponseEntity.ok(service.getMealsByCategory(MealCategory.valueOf(category)));
     }
 
     @PutMapping

@@ -51,6 +51,11 @@ public class ProductController {
         return service.getProductsWithAmountZero();
     }
 
+    @GetMapping
+    public ResponseEntity<List<Product>> getProductsByCategory(String category) {
+        return ResponseEntity.ok(service.getProductsByCategory(ProductCategory.valueOf(category)));
+    }
+
     @GetMapping(params = {"name", "description", "amount", "category"})
     public Product testCreate(@RequestParam("name") String name,
                               @RequestParam("description") String description,

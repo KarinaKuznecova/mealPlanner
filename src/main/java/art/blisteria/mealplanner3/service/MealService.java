@@ -1,6 +1,7 @@
 package art.blisteria.mealplanner3.service;
 
 import art.blisteria.mealplanner3.domain.Meal;
+import art.blisteria.mealplanner3.domain.MealCategory;
 import art.blisteria.mealplanner3.repository.MealRepository;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,10 @@ public class MealService {
 
     public Meal getByName(String name) {
         return mealRepository.getMealByName(name);
+    }
+
+    public List<Meal> getMealsByCategory(MealCategory category) {
+        return mealRepository.findAllByMealCategory(category);
     }
 
     public Meal editMeal(Meal meal) {
