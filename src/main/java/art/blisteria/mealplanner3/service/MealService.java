@@ -3,6 +3,8 @@ package art.blisteria.mealplanner3.service;
 import art.blisteria.mealplanner3.domain.Meal;
 import art.blisteria.mealplanner3.domain.MealCategory;
 import art.blisteria.mealplanner3.repository.MealRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.List;
 public class MealService {
 
     private MealRepository mealRepository;
+    private static Logger logger = LogManager.getLogger(MealService.class);
 
     public MealService(MealRepository mealRepository) {
         this.mealRepository = mealRepository;
@@ -18,6 +21,7 @@ public class MealService {
 
     public Meal createMeal(Meal meal) {
         mealRepository.save(meal);
+        logger.info("Meal saved: " + meal);
         return meal;
     }
 
