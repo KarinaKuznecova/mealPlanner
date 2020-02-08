@@ -3,8 +3,8 @@ package art.blisteria.mealplanner3.controller;
 import art.blisteria.mealplanner3.domain.Meal;
 import art.blisteria.mealplanner3.domain.MealCategory;
 import art.blisteria.mealplanner3.service.MealService;
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -58,8 +58,8 @@ public class MealController {
                            @RequestParam("description") String description,
                            @RequestParam("category") String category) {
         Map<Long, Double> products = new HashMap<>();
-        products.put(1L, 12.0);
-        products.put(2L, 22.5);
+        products.put(7L, 12.0);
+        products.put(8L, 22.5);
         Meal meal = new Meal(name, description, MealCategory.valueOf(category), products);
         service.createMeal(meal);
         return meal;

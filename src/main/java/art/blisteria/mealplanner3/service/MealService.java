@@ -2,18 +2,24 @@ package art.blisteria.mealplanner3.service;
 
 import art.blisteria.mealplanner3.domain.Meal;
 import art.blisteria.mealplanner3.domain.MealCategory;
+import art.blisteria.mealplanner3.domain.Product;
 import art.blisteria.mealplanner3.repository.MealRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MealService {
 
     private MealRepository mealRepository;
     private static Logger logger = LogManager.getLogger(MealService.class);
+
+    @Autowired
+    private ProductService productService;
 
     public MealService(MealRepository mealRepository) {
         this.mealRepository = mealRepository;
@@ -26,22 +32,35 @@ public class MealService {
     }
 
     public List<Meal> getAllMeals() {
-        return mealRepository.findAll();
+        List<Meal> all = mealRepository.findAll();
+        for (Meal meal : all) {
+            fillRealProducts(meal);
+        }
+        return all;
     }
 
     public Meal getById(Long id) {
-        return mealRepository.getOne(id);
+        Meal meal = mealRepository.getOne(id);
+        fillRealProducts(meal);
+        return meal;
     }
 
     public Meal getByName(String name) {
-        return mealRepository.getMealByName(name);
+        Meal meal = mealRepository.getMealByName(name);
+        fillRealProducts(meal);
+        return meal;
     }
 
     public List<Meal> getMealsByCategory(MealCategory category) {
-        return mealRepository.findAllByMealCategory(category);
+        List<Meal> allByMealCategory = mealRepository.findAllByMealCategory(category);
+        for (Meal meal : allByMealCategory) {
+            fillRealProducts(meal);
+        }
+        return allByMealCategory;
     }
 
     public Meal editMeal(Meal meal) {
+        fillRealProducts(meal);
         return mealRepository.save(meal);
     }
 
@@ -49,4 +68,17 @@ public class MealService {
         mealRepository.deleteById(id);
     }
 
+    private void fillRealProducts(Meal meal) {
+        logger.debug("filling real products for meal: " + meal);
+        for (Map.Entry<Long, Double> entry : meal.getProducts().entrySet()) {
+            Long id = entry.getKey();
+            Double amount = entry.getValue();
+            logger.debug("Going through map, product id: " + id + " product amount: " + amount);
+            Product product = productService.getById(id);
+            logger.debug("Found product : " + product);
+            if (product != null) {
+                meal.getRealProducts().put(product, amount);
+            }
+        }
+    }
 }

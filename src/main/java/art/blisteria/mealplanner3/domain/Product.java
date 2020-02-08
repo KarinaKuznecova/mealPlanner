@@ -36,6 +36,12 @@ public class Product implements Serializable {
         this.productCategory = productCategory;
     }
 
+    public Product(String name, String description, ProductCategory productCategory) {
+        this.name = name;
+        this.description = description;
+        this.productCategory = productCategory;
+    }
+
     public Long getId() {
         return id;
     }

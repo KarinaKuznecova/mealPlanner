@@ -3,6 +3,7 @@ package art.blisteria.mealplanner3.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.HashMap;
 import java.util.Map;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -24,9 +25,14 @@ public class Meal {
     @Column(name = "category")
     private MealCategory mealCategory;
 
+    //key = product_id, value = product_amount
     @ElementCollection(fetch = FetchType.LAZY)
     @Column(name = "products")
     private Map<Long, Double> products;
+
+    //key = product, value = product_amount
+    @Transient
+    private Map<Product, Double> realProducts = new HashMap<>();
 
     public Meal() {
     }
@@ -78,6 +84,14 @@ public class Meal {
         this.products = products;
     }
 
+    public Map<Product, Double> getRealProducts() {
+        return realProducts;
+    }
+
+    public void setRealProducts(Map<Product, Double> realProducts) {
+        this.realProducts = realProducts;
+    }
+
     @Override
     public String toString() {
         return "Meal{" +
@@ -85,7 +99,7 @@ public class Meal {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", mealCategory=" + mealCategory +
-                ", products=" + products +
+                ", products=" + realProducts +
                 '}';
     }
 }
