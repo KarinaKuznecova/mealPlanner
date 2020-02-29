@@ -71,6 +71,14 @@ public class MealController {
         return ResponseEntity.ok(service.getMealsByCategory(MealCategory.valueOf(category)));
     }
 
+    @GetMapping(params = {"available"})
+    public ResponseEntity<List<Meal>> getAvailableMeals(@RequestParam("available") boolean available) {
+        if (available) {
+            return ResponseEntity.ok(service.getAvailableMeals());
+        }
+        return ResponseEntity.ok(service.getAllMeals());
+    }
+
     @PutMapping
     public ResponseEntity<Meal> updateMeal(@RequestBody Meal meal, UriComponentsBuilder builder) {
         logger.info("Updating Meal: " + meal);

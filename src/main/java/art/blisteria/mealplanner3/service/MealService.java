@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -59,6 +60,35 @@ public class MealService {
         return allByMealCategory;
     }
 
+    public List<Meal> getAvailableMeals() {
+        logger.info("getting available meals");
+        List<Meal> allMeals = mealRepository.findAll();
+        List<Meal> availableMeals = new ArrayList<>();
+        for (Meal meal : allMeals) {
+            if (hasAllProducts(meal)) {
+                availableMeals.add(meal);
+            }
+        }
+        return availableMeals;
+    }
+
+    private boolean hasAllProducts(Meal meal) {
+        logger.debug("Checking meal: " + meal.getName() + ", id: " + meal.getId());
+        fillRealProducts(meal);
+        for (Product product : meal.getRealProducts().keySet()) {
+            if (product != null && product.getAmount() == 0) {
+                logger.debug("Meal " + meal.getId() + " doesn't have " + product.getName());
+                return false;
+            }
+        }
+        if (meal.getRealProducts().isEmpty()) {
+            logger.error("Could not find real products for meal " + meal.getId());
+            return false;
+        }
+        logger.debug("Meal " + meal.getId() + " has all products");
+        return true;
+    }
+
     public Meal editMeal(Meal meal) {
         fillRealProducts(meal);
         return mealRepository.save(meal);
@@ -78,6 +108,8 @@ public class MealService {
             logger.debug("Found product : " + product);
             if (product != null) {
                 meal.getRealProducts().put(product, amount);
+            } else {
+                logger.error("Could not find real product with id: " + id);
             }
         }
     }
